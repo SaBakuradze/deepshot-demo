@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script src="https://www.youtube.com/game_api/v1"></script>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#151a2c" />
+    <meta name="description" content="Harpoon fish, grow them in your aquarium, get fat and sink deeper." />
+    <title>Deepshot</title>
+    <style>html,body{background:#0f3b66;height:100%;margin:0;overflow:hidden}#loading{color:#fff;z-index:90;background:linear-gradient(#2fb3df,#0f3b66);place-content:center;justify-items:center;gap:18px;font:700 22px system-ui,sans-serif;display:grid;position:fixed;inset:0}#loading .bub{border:5px solid #fff;border-radius:50%;width:46px;height:46px;animation:.9s ease-in-out infinite alternate bob}@keyframes bob{0%{transform:translateY(-8px)}to{transform:translateY(8px)}}</style>
+    <script type="module" crossorigin src="./assets/index-CmaICl0f.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/three-fwVN_t_K.js">
+    <link rel="modulepreload" crossorigin href="./assets/three-C3Mg1y8V.js">
+    <link rel="modulepreload" crossorigin href="./assets/three-Cf9pJoT4.js">
+    <link rel="stylesheet" crossorigin href="./assets/index-vAgGVJ7O.css">
+  </head>
+  <body data-mode="none">
+    <canvas id="game" aria-label="Deepshot game view"></canvas>
+    <div id="labels"></div>
+    <div id="hud" hidden>
+      <div id="goal"><b id="goal-title"></b><small id="goal-sub"></small></div>
+      <div class="stats">
+        <div class="hstat money"><span id="money-ico" class="ico"></span><b id="money">$0</b><small id="rate"></small><em id="cash-t" class="boost-t" hidden></em></div>
+        <div class="hstat fatstat"><span id="fat-ico" class="ico"></span><b id="fat">0</b><small>fat</small><em id="boost-t" class="boost-t" hidden></em></div>
+        <div class="hstat lvl"><span id="lvl-ico" class="ico star"><b id="lvl">1</b></span><div class="xp"><div id="xp-fill"></div></div></div>
+        <div class="srow"><div id="net" class="stat net" hidden></div><button id="evstat" class="stat ev" hidden aria-label="Ocean event"></button></div>
+        <ol id="feed" aria-label="Room catch feed"></ol>
+      </div>
+      <div class="side">
+        <button class="sbtn" id="btn-aquarium" aria-label="Aquarium and fish (F)"></button>
+        <button class="sbtn" id="btn-index" aria-label="Index (I)"></button>
+        <button class="sbtn island-only" id="btn-shop" aria-label="Upgrades (U)"></button>
+        <button class="sbtn extra" id="btn-rewards" aria-label="Rewards (R)"></button>
+        <button class="sbtn extra" id="btn-store" aria-label="Video rewards (O)"></button>
+      </div>
+      <button class="sbtn round" id="btn-pause" aria-label="Pause (Esc)"></button>
+      <div id="mcol" class="m-only"><button class="mbtn" id="m-menu" aria-label="Menu"></button><button class="mbtn sm" id="m-goal" aria-label="Current goal"></button></div>
+      <div id="mquick" class="m-only"><button class="mbtn big" id="m-fish" aria-label="Fish"></button><button class="mbtn big" id="m-dive" aria-label="Dive"></button></div>
+      <button id="action" class="action" hidden><span id="action-label"></span><kbd id="action-key">E</kbd></button>
+      <div id="dive-hud">
+        <div id="gauge"><small>DEPTH</small><b id="depth-num">0m</b><div class="gwrap"><div id="gauge-bar"></div><div id="gauge-ticks"></div></div>
+          <div class="dbtns"><button id="d-up" aria-label="Swim up">▲</button><button id="d-down" aria-label="Sink deeper">▼</button></div></div>
+        <div id="bag"><i id="bag-ico"></i><b id="bag-n">0/2</b><small id="bag-kg">0kg</small><em id="bag-t" class="boost-t" hidden></em></div>
+        <button id="btn-surface" class="btn nav lg"><span class="bl">Surface<small class="desk">Space</small></span></button>
+        <div id="crosshair"></div>
+        <div id="hint"><span class="desk">Scroll or W/S to change depth · click to shoot</span><span class="touch">Drag to aim · tap a fish to shoot · ▲▼ for depth</span></div>
+      </div>
+      <div id="ring" hidden>
+        <div id="ring-hearts" class="hearts"></div>
+        <svg viewBox="0 0 200 200" aria-hidden="true">
+          <circle cx="100" cy="100" r="78" class="track" />
+          <g id="ring-arcs" class="arcs"></g>
+          <g id="ring-needle"><line x1="100" y1="6" x2="100" y2="40" class="needle" /><line x1="100" y1="44" x2="100" y2="100" class="needle-thin" /></g>
+          <circle cx="100" cy="100" r="58" class="inner" />
+        </svg>
+        <span id="ring-tap" class="tap">CLICK</span>
+        <div id="ring-name"></div>
+        <div id="ring-pips" class="pips"></div>
+        <div id="ring-perks"></div>
+        <div id="ring-texts"></div>
+      </div>
+      <div id="ctrack" hidden></div>
+      <div id="announce"></div>
+      <div id="toasts" aria-live="polite"></div>
+      <div id="floaters"></div>
+    </div>
+    <div id="flash"></div>
+    <div id="fade"></div>
+    <div id="joy"><div class="knob"></div></div>
+    <div id="move-dot"></div>
+    <div id="modal"></div>
+    <div id="title" class="screen" hidden>
+      <div class="logo"><div class="mark"><i></i></div><h1>DEEP<em>SHOT</em></h1><p>Harpoon. Collect. Get fat. Sink deeper.</p></div>
+      <button id="play" class="btn go lg">Play</button>
+      <p class="controls-hint"><span class="desk">Click the ground or WASD to walk · click the button or E to interact · click to shoot · Esc to pause</span><span class="touch">Joystick on the left · drag to look · tap to shoot</span></p>
+    </div>
+    <div id="loading"><div class="bub"></div>Loading Deepshot…</div>
+  </body>
+</html>
